@@ -25,6 +25,8 @@ export default function Sign() {
       return toast.error("Enter username");
     }else if(!password){
       return toast.error("Enter password");
+    }else if(password.length < 7){
+      return toast.error("Password must be 6 characters long")
     }
 
     //posting data to api
@@ -79,7 +81,7 @@ export default function Sign() {
           className="input"
           type="password"
           placeholder="Password"
-          onChange={(e) => setpassword(e.target.value)}
+          onChange={(e) => {setpassword(e.target.value)}}
         />
         <p className="redirect">
           Already a user ? <a href="/login">Login</a>

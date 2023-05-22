@@ -8,16 +8,13 @@ import toast from 'react-hot-toast';
 export default function Login() {
   const [username, setusername] = useState("");
   const [password, setpassword] = useState("");
-  
-  const Navigation = useNavigate();
-  const cookies = new Cookies();
 
-  //variables for checks 
-  let username_check = cookies.get('username');
-  let name_check = cookies.get('name');
+  const cookies = new Cookies();
 
   //sending request to api for login
   const handleLogin = (e) => {
+
+    //preventing default behaviour of refresh
     e.preventDefault();
 
     if(!username){
@@ -36,8 +33,8 @@ export default function Login() {
       .then((res) => {
           // setting cookies to keep user logged in
           if(res.data.username){
-            cookies.set('username', res.data.username);
-            cookies.set('name', res.data.name);
+            cookies.set('username', res.data.username , { sameSite: 'strict' });
+            cookies.set('name', res.data.name, { sameSite: 'strict' });
             window.location.reload(false);
           }else{
             throw new Error();
@@ -51,13 +48,6 @@ export default function Login() {
       });
 
   };
-
-  useEffect(() => {
-    //checking if user is already logged in on every load of page /login
-    if(username_check && name_check){
-      Navigation("/");
-    }
-  },[])
 
   return (
     <div className="login-wrapper">

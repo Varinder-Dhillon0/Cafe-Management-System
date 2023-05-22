@@ -13,6 +13,8 @@ import {GoChecklist} from "react-icons/go"
 import {AiOutlineDown} from "react-icons/ai"
 
 function App() {
+
+  //defining variables
   const [name, setName] = useState("");
   const [username, setuserName] = useState("");
   const cookies = new Cookies();
@@ -22,6 +24,7 @@ function App() {
 
   const [orders,setOrders] = useState([]);
 
+  //arrays for items
   const hotclassics = [
     {
       name: "Cappuccino",
@@ -284,6 +287,7 @@ function App() {
     },
   ];
 
+  //logout function 
   function logout() {
     cookies.remove("username");
     cookies.remove("name");
@@ -294,23 +298,31 @@ function App() {
     window.location.reload(false);
   }
 
+  //handling payment when clicked on checkout button
   const handlePayment = async (total,username) => {
 
+    //checking if cart has items
     if(cart.length === 0){
       return toast.error("Cart is empty");
     }
 
+    //getting razorpay key from server
+    const {data : {key}} = await Axios.get("http://localhost:5000/getKey");
+
+    //posting server with amount 
     const {data : {order}} = await Axios.post("http://localhost:5000/checkout", {
       amount : total
     })
+
+    //options for razorpay window [...all copied from razorpay setup sdk]
     var options = {
-      key: "rzp_test_BjlHWZayRvsAJi", // Enter the Key ID generated from the Dashboard
+      key: key, // Enter the Key ID generated from the Dashboard
       amount: order.amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
       currency: "INR",
       name: "Brewtopia",
       description: "Test Transaction",
       image: "https://avatars.githubusercontent.com/u/98728916?v=4",
-      order_id: order.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+      order_id: order.id, 
       callback_url: `http://localhost:5000/paymentverification?username=${username}`,
       prefill: {
           name: {username},
@@ -323,6 +335,9 @@ function App() {
       theme: {
           color: "#ecd3bd"
       }}
+
+      //here opens the razorpay window ... window has Razorpay method
+      //because we put script tag of razorpay in index.html
       var razor = new window.Razorpay(options);
       razor.open();
 
@@ -335,6 +350,7 @@ function App() {
       setuserName(cookies.get("username"));
       setName(cookies.get("name"));
       
+      //request to server for cart and orders
       const servercart = async () => {
         const cart = await Axios.post("http://localhost:5000/getCart", {
           username: username
@@ -345,7 +361,6 @@ function App() {
           username : username
         })
         setOrders(AllOrders.data);
-        console.log(AllOrders.data);
       }
       servercart();
 
@@ -354,30 +369,37 @@ function App() {
   //updating server cart and also updating total on server side
   useEffect(() => {
 
+    //updating total on client
     var total = cart.reduce(
       (acc, product) => acc + product.price * product.count,
       0
     );
     setTotal(total);
 
+    //posting server with updated cart
     Axios.post("http://localhost:5000/updateCart", {
       "username": username,
       "cart": cart,
       "cartTotal": total
     }
     )
-  }, [cart])
+  }, [cart]) //whenever cart changes these requests will be made to server
 
   return (
     <div className="App">
+
+      {/* Navbar of app */}
       <nav className="nav">
         <a href="/">BREWTOPIA</a>
         <h3>info@brewtopiacafe.com</h3>
       </nav>
 
+      {/* Mapping all orders from orders array and showing on frontend */}
       <div className="orders-wrap">
         <h2><GoChecklist></GoChecklist> Your Orders</h2>
         <div className="orders">
+
+          {/* checking if there are previous orders  by user */}
           {orders.length>0 ? 
             orders.map((order, index = orders.indexOf(order)) =>{
               return <Order key={index} order = {order}></Order>
@@ -386,12 +408,17 @@ function App() {
           }
         </div>
       </div>  
-
+      
+      {/* Mapping all cartitems from cart array and showing on frontend */}
       <div className="cart">
         <h2>Your Cart</h2>
         <div className="cart-items">
+
+          {/* checking if cart has any objects */}
           {cart.length > 0
             ? cart.map((item, index = cart.indexof(item)) => {
+
+              // giving props to cartitem and giving states also so we can change them there
               return (
                 <CartItem
                   key={index}
@@ -404,6 +431,8 @@ function App() {
             })
             : "Added items will be shown here"}
         </div>
+
+        {/* showing cart total  */}
         <div className="cart-total">
           <p>Total : {total}</p>
           <button type="button" onClick={() => handlePayment(total,username)}>
@@ -411,6 +440,8 @@ function App() {
             Checkout
           </button>
         </div>
+
+        {/* showing user profile with logout button */}
         <div className="user">
           <img src={profilepic} alt="" />
           <div className="username">
@@ -422,7 +453,9 @@ function App() {
           </button>
         </div>
       </div>
-
+      
+      {/* Here we are mapping all the products in product1 grid -- it acts like wrap */}
+      {/* then placing in product-container and mapping each category */}
       <main className="main">
         <div id="product1">
           <h2>HOT CLASSICS</h2>
@@ -495,7 +528,11 @@ function App() {
           </div>
         </div>
       </main>
+
+      {/* this is down button --basically showing user that he has to scroll for more contents */}
       <button className="down"><AiOutlineDown></AiOutlineDown> </button>
+
+      {/* footer starts here */}
       <footer className="footer">
         <div className="col-1">
           <p>
@@ -510,6 +547,8 @@ function App() {
           </p>
           <a href="">Cafe Policy</a>
         </div>
+
+        {/* for navigation */}
         <div className="col-2">
           <a href="#product1">HOT CLASSICS</a>
           <a href="#product2">ALL TIME CHILLERS</a>
