@@ -13,7 +13,22 @@ const UserSchema = new mongoose.Schema({
     password:{
         type : String,
         required : true
-    }
+    },
+    cart: [{
+        name: { type: String},
+        photo: { type: String},
+        price: { type: Number},
+        count : {type : Number}
+    }],
+    cartTotal : {
+        type : Number
+    },
+    AllOrders:[{
+        order_id : { type: String},
+        amount : { type: Number},
+        method : { type: String},
+        time : { type: String}
+    }]
 })
 
 const UserModel = mongoose.model("users",UserSchema);

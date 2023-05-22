@@ -1,21 +1,26 @@
 import "./styles/App.css";
 import Product from "./components/product.js";
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import Cookies from "universal-cookie";
 import profilepic from "./profilepic.jpg";
 import CartItem from "./components/cartitem";
-import { SlBasket } from "react-icons/sl";
+import { TiShoppingCart } from "react-icons/ti";
+import {BiLogOut} from "react-icons/bi"
 import toast from "react-hot-toast";
+import Axios from "axios";
+import Order from "./components/order";
+import {GoChecklist} from "react-icons/go"
+import {AiOutlineDown} from "react-icons/ai"
 
 function App() {
   const [name, setName] = useState("");
   const [username, setuserName] = useState("");
-  const Navigation = useNavigate();
   const cookies = new Cookies();
 
   const [total, setTotal] = useState(0);
   const [cart, setCart] = useState([]);
+
+  const [orders,setOrders] = useState([]);
 
   const hotclassics = [
     {
@@ -278,42 +283,90 @@ function App() {
       price: "150",
     },
   ];
-  let username_check = cookies.get("username");
-  let name_check = cookies.get("name");
 
   function logout() {
     cookies.remove("username");
     cookies.remove("name");
 
+    toast.error("logged out");
+
     //reloading the page to reflect changes
     window.location.reload(false);
-    toast.error("logged out");
-  } 
+  }
 
-  useEffect(() => {
-    if (username_check != undefined && name_check != undefined) {
-      setuserName(username_check);
-      setName(name_check);
-  
-      var cartitems = localStorage.getItem("cartstorage");
-      
-      if(cartitems){
-        setCart(cartitems);
-        localStorage.removeItem("cartstorage");
-      }
-      
-    } else {
-      Navigation("/login");
+  const handlePayment = async (total,username) => {
+
+    if(cart.length === 0){
+      return toast.error("Cart is empty");
     }
-  }, []);
 
+    const {data : {order}} = await Axios.post("http://localhost:5000/checkout", {
+      amount : total
+    })
+    var options = {
+      key: "rzp_test_BjlHWZayRvsAJi", // Enter the Key ID generated from the Dashboard
+      amount: order.amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+      currency: "INR",
+      name: "Brewtopia",
+      description: "Test Transaction",
+      image: "https://avatars.githubusercontent.com/u/98728916?v=4",
+      order_id: order.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+      callback_url: `http://localhost:5000/paymentverification?username=${username}`,
+      prefill: {
+          name: {username},
+          email: {username},
+          contact: "9000090000"
+      },
+      notes: {
+          address: "Razorpay Corporate Office"
+      },
+      theme: {
+          color: "#ecd3bd"
+      }}
+      var razor = new window.Razorpay(options);
+      razor.open();
+
+  }
+
+  //making request to server for the data of user cart  and orders
   useEffect(() => {
+
+      //setting username and name from cookies
+      setuserName(cookies.get("username"));
+      setName(cookies.get("name"));
+      
+      const servercart = async () => {
+        const cart = await Axios.post("http://localhost:5000/getCart", {
+          username: username
+        })
+        setCart(cart.data);
+
+        const AllOrders = await Axios.post("http://localhost:5000/getOrders", {
+          username : username
+        })
+        setOrders(AllOrders.data);
+        console.log(AllOrders.data);
+      }
+      servercart();
+
+  }, [username]);
+
+  //updating server cart and also updating total on server side
+  useEffect(() => {
+
     var total = cart.reduce(
       (acc, product) => acc + product.price * product.count,
       0
     );
     setTotal(total);
-  }, [cart]);
+
+    Axios.post("http://localhost:5000/updateCart", {
+      "username": username,
+      "cart": cart,
+      "cartTotal": total
+    }
+    )
+  }, [cart])
 
   return (
     <div className="App">
@@ -322,26 +375,39 @@ function App() {
         <h3>info@brewtopiacafe.com</h3>
       </nav>
 
+      <div className="orders-wrap">
+        <h2><GoChecklist></GoChecklist> Your Orders</h2>
+        <div className="orders">
+          {orders.length>0 ? 
+            orders.map((order, index = orders.indexOf(order)) =>{
+              return <Order key={index} order = {order}></Order>
+            })
+            : "No orders yet..."
+          }
+        </div>
+      </div>  
+
       <div className="cart">
         <h2>Your Cart</h2>
         <div className="cart-items">
           {cart.length > 0
             ? cart.map((item, index = cart.indexof(item)) => {
-                return (
-                  <CartItem
-                    key={index}
-                    item={item}
-                    cart={cart}
-                    setCart={setCart}
-                  ></CartItem>
-                );
-              })
+              return (
+                <CartItem
+                  key={index}
+                  item={item}
+                  cart={cart}
+                  setCart={setCart}
+                  total={total}
+                ></CartItem>
+              );
+            })
             : "Added items will be shown here"}
         </div>
         <div className="cart-total">
           <p>Total : {total}</p>
-          <button type="button">
-            <SlBasket color="white" width={20}></SlBasket>
+          <button type="button" onClick={() => handlePayment(total,username)}>
+            <TiShoppingCart color="white" style={{fontSize : "1.2rem"}}></TiShoppingCart>
             Checkout
           </button>
         </div>
@@ -352,7 +418,7 @@ function App() {
             <p>@{username}</p>
           </div>
           <button type="button" onClick={() => logout()}>
-            logout
+            <BiLogOut></BiLogOut>
           </button>
         </div>
       </div>
@@ -429,6 +495,7 @@ function App() {
           </div>
         </div>
       </main>
+      <button className="down"><AiOutlineDown></AiOutlineDown> </button>
       <footer className="footer">
         <div className="col-1">
           <p>

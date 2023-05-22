@@ -36,9 +36,9 @@ export default function Login() {
       .then((res) => {
           // setting cookies to keep user logged in
           if(res.data.username){
-            cookies.set('username', res.data.username, { path: '/'});
-            cookies.set('name', res.data.name, { path: '/'});
-            Navigation("/");
+            cookies.set('username', res.data.username);
+            cookies.set('name', res.data.name);
+            window.location.reload(false);
           }else{
             throw new Error();
           }

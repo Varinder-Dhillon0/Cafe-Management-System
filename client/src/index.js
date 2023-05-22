@@ -4,20 +4,27 @@ import App from "./App";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Login from "./login";
 import Sign from "./sign-up";
+import Cookies from "universal-cookie";
 import { Toaster } from "react-hot-toast";
+import { Navigate } from "react-router-dom";
+import PaymentSuccess from "./paymentsuccess";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
+
+const cookies = new Cookies();
+const user = cookies.get("username");
 
 //for different routes that user can route to and rendering it to root which is present in index.html
 //by selecting it
 
 root.render(
-  <React.StrictMode>
+  <>
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<App />}></Route>
-        <Route path="/login" element={<Login />}></Route>
+        <Route exact path="/" element={user ? <App /> : <Navigate replace to="/login" />} />
+        <Route exact path="/login" element={user ? <App/> : <Login/>} />
         <Route path="/sign-up" element={<Sign />}></Route>
+        <Route path="/paymentsuccess" element={<PaymentSuccess/>}></Route>
       </Routes>
     </BrowserRouter>
     <Toaster
@@ -70,5 +77,5 @@ root.render(
         },
       }}
     />
-  </React.StrictMode>
+  </>
 );

@@ -1,6 +1,8 @@
 import {  useState , useEffect} from "react";
 import "../styles/App.css";
 import toast from "react-hot-toast";
+import Axios from "axios";
+import Cookies from "universal-cookie";
 
 export default function Product(props) {
   const { product, cartState, setCart, total, setTotal } = props;
@@ -8,11 +10,10 @@ export default function Product(props) {
   const [counter, setcounter] = useState(1);
 
   //used to update total and cart items
-  const cart = () => {
+  const cart =   () => {
     if (clicked === false) {
       setTotal(total + product.price * counter);
-      setCart(
-        cartState.concat({
+      setCart(cartState.concat({
           name: product.name,
           photo: product.image,
           quantity: product.quantity,
@@ -20,8 +21,9 @@ export default function Product(props) {
           count: counter,
         })
       );
-      toast.success("Added to cart");
       setclicked(true);
+
+      toast.success("Added to cart");
     }
   };
 
@@ -34,7 +36,11 @@ export default function Product(props) {
   //clicked or not clicked state
   function itemincart(){
     for(var i=0; i<cartState.length; i++){
-        if(cartState[i].name == product.name) return true;
+        if(cartState[i].name == product.name){
+          setcounter(cartState[i].count);
+          return true
+        };
+        
     }
     return false;
   }
