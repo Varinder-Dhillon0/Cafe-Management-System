@@ -22,7 +22,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 //using cookie middleware --however i dont think i used it here 
-//but won't be removing it cus it will fill errors
+//but won't be removing it cus it will fill code with errors
 app.use(cookieParser("CMS"));
 
 //making instance for razorpay which has key and secret
@@ -63,7 +63,7 @@ app.post("/getUser", async (req, res) => {
     //finding in database
     const Users = await UserModel.findOne({ username: username });
 
-    //no user return ? error
+    //no user return   ? error
     if(Users == null){
       return res.send("error bruh")
     }

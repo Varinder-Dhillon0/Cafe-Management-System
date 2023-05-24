@@ -55,7 +55,7 @@ export default function Sign() {
     if(username_check && name_check){
       Navigation("/");
     }
-  },[])
+  },[username_check,name_check,Navigation])
 
   return (
     <div className="login-wrapper">

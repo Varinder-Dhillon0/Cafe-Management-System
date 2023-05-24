@@ -6,7 +6,7 @@ import {MdDeleteOutline} from "react-icons/md"
 export default function CartItem(props){
 
     //destructuring from the props object to obtain vars
-    const { item, cart ,setCart ,total} = props;
+    const { item, cart ,setCart } = props;
 
     //to remove an item from the cart
     const removeitem = () => {
