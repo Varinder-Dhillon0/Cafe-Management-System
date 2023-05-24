@@ -140,7 +140,8 @@ app.post("/updateCart", async (req,res) =>{
 //used for checkout payment
 //all of functions for making razorpay order apply to instance
 app.post("/checkout", async(req,res) =>{
-
+  
+  console.log(process.env.RAZORPAY_API_KEY, process.env.RAZORPAY_API_SECRET);
   //making some options for razorpay
   const options = {
     amount: Number(req.body.amount * 100),  // converting amount to number and changing to paise
