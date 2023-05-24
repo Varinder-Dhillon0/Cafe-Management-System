@@ -323,7 +323,7 @@ function App() {
       description: "Test Transaction",
       image: "https://avatars.githubusercontent.com/u/98728916?v=4",
       order_id: order.id, 
-      callback_url: `http://localhost:5000/paymentverification?username=${username}`,
+      callback_url: `https://cafe-management-system-api.onrender.com/paymentverification?username=${username}`,
       prefill: {
           name: {username},
           email: {username},
