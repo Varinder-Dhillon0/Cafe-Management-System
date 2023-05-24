@@ -307,10 +307,10 @@ function App() {
     }
 
     //getting razorpay key from server
-    const {data : {key}} = await Axios.get("http://localhost:5000/getKey");
+    const {data : {key}} = await Axios.get("https://cafe-management-system-api.onrender.com/getKey");
 
     //posting server with amount 
-    const {data : {order}} = await Axios.post("http://localhost:5000/checkout", {
+    const {data : {order}} = await Axios.post("https://cafe-management-system-api.onrender.com/checkout", {
       amount : total
     })
 
@@ -352,12 +352,12 @@ function App() {
       
       //request to server for cart and orders
       const servercart = async () => {
-        const cart = await Axios.post("http://localhost:5000/getCart", {
+        const cart = await Axios.post("https://cafe-management-system-api.onrender.com/getCart", {
           username: username
         })
         setCart(cart.data);
 
-        const AllOrders = await Axios.post("http://localhost:5000/getOrders", {
+        const AllOrders = await Axios.post("https://cafe-management-system-api.onrender.com/getOrders", {
           username : username
         })
         setOrders(AllOrders.data);
@@ -377,7 +377,7 @@ function App() {
     setTotal(total);
 
     //posting server with updated cart
-    Axios.post("http://localhost:5000/updateCart", {
+    Axios.post("https://cafe-management-system-api.onrender.com/updateCart", {
       "username": username,
       "cart": cart,
       "cartTotal": total
