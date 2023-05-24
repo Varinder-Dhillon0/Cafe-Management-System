@@ -216,7 +216,7 @@ app.post("/paymentverification", async(req,res) =>{
     });
 
     //redirecting to success payment page with payment_id
-    res.redirect(`http://localhost:3000/paymentsuccess?reference=${razorpay_payment_id}`);
+    res.redirect(`https://cafemanagementsystem.netlify.app/paymentsuccess?reference=${razorpay_payment_id}`);
   }else{
 
     //if not matched we will give error
