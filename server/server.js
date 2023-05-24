@@ -42,7 +42,7 @@ mongoose
 
 //these are here so that there won't be any errors related to cross site accessing
 app.use((req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "http://localhost:3000");
+  res.header("Access-Control-Allow-Origin", "https://cafemanagementsystem.netlify.app");
   res.header("Access-Control-Allow-Credentials", true);
   next();
 });
