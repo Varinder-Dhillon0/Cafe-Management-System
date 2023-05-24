@@ -30,7 +30,7 @@ export default function Sign() {
     }
 
     //posting data to api
-    const newUserPromise = Axios.post("http://localhost:5000/createUser", {
+    const newUserPromise = Axios.post("https://cafe-management-system-api.onrender.com/createUser", {
       name: name,
       username: username,
       password: password,
