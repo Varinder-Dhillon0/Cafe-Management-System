@@ -26,7 +26,7 @@ export default function Login() {
     }
 
     //getting data from backend port 
-    const getUser = Axios.post("http://localhost:5000/getUser", {
+    const getUser = Axios.post("https://cafe-management-system-api.onrender.com/getUser", {
       username: username,
       password: password,
     })
