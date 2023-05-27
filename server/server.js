@@ -140,7 +140,6 @@ app.post("/updateCart", async (req,res) =>{
 //all of functions for making razorpay order apply to instance
 app.post("/checkout", async(req,res) =>{
   
-  console.log(process.env.RAZORPAY_API_KEY, process.env.RAZORPAY_API_SECRET);
   //making some options for razorpay
   const options = {
     amount: Number(req.body.amount * 100),  // converting amount to number and changing to paise
@@ -197,12 +196,13 @@ app.post("/paymentverification", async(req,res) =>{
         day: 'numeric',
         hour: 'numeric',
         minute: 'numeric',
-        timeZoneName: 'short'
+        timeZoneName: 'short',
+        timeZone: 'Asia/Kolkata'
       });
-
+      
       // making order_details object
       const order_details = {amount,order_id,method,time}
-      console.log(order_details);
+      
       //updating orders and making cart empty
       const data = await UserModel.findOneAndUpdate(
         { username: username },
