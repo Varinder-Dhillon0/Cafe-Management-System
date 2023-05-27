@@ -131,7 +131,6 @@ app.post("/updateCart", async (req,res) =>{
 
     //finding user in database and updating cart and carttotal
     await UserModel.findOneAndUpdate({username: username}, {cart: cart, cartTotal : total});
-    console.log(cart,username)
 
     //sending response to client side
     res.send("Success");
@@ -203,7 +202,7 @@ app.post("/paymentverification", async(req,res) =>{
 
       // making order_details object
       const order_details = {amount,order_id,method,time}
-
+      console.log(order_details);
       //updating orders and making cart empty
       const data = await UserModel.findOneAndUpdate(
         { username: username },
