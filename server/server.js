@@ -31,6 +31,9 @@ var instance = new Razorpay({
   key_secret: process.env.RAZORPAY_API_SECRET,
 });
 
+console.log(process.env.RAZORPAY_API_KEY);
+console.log(process.env.RAZORPAY_API_SECRET);
+
 //connecting to database
 mongoose
   .connect(
