@@ -25,27 +25,32 @@ export default function Login() {
       return toast.error("Enter Password");
     }
 
-    //getting data from backend port 
     const getUser = Axios.post("https://cafe-management-system-api.onrender.com/getUser", {
-      username: username,
-      password: password,
-    })
-      .then((res) => {
-          // setting cookies to keep user logged in
+          username: username,
+          password: password,
+        });
+
+// Display a loading toast while the promise is pending
+const loadingToast = toast.loading('Logging in');
+
+getUser
+  .then((res) => {
+    // Update the loading toast with a success message and set the duration to 5000ms (5 seconds)
+              // setting cookies to keep user logged in
           if(res.data.username){
             cookies.set('username', res.data.username , { sameSite: 'strict' });
             cookies.set('name', res.data.name, { sameSite: 'strict' });
+            toast.success('Logged in', { id: loadingToast, duration: 1000 });
             window.location.reload(false);
           }else{
             throw new Error();
-          }
-      })
-
-      toast.promise(getUser, {
-        loading: 'Logging in',
-        success: 'Logged in',
-        error: 'Username/password combination is wrong',
-      });
+          } 
+    // ...
+  })
+  .catch((err) => {
+    // Update the loading toast with an error message and set the duration to 5000ms (5 seconds)
+    toast.error('Username/password combination is wrong', { id: loadingToast, duration: 1000 });
+  });
 
   };
 
