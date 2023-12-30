@@ -142,20 +142,25 @@ app.post("/updateCart", async (req,res) =>{
 app.post("/checkout", async(req,res) =>{
 
   //making some options for razorpay
-  const options = {
-    amount: Number(req.body.amount * 100),  // converting amount to number and changing to paise
-    currency: "INR",
-  };
-
-  //creating an order with razorpay method
-  const order = await instance.orders.create(options).catch((err) => console.log(err));
+  try {
+    const options = {
+      amount: Number(req.body.amount * 100),  // converting amount to number and changing to paise
+      currency: "INR",
+    };
   
-  //sending true status to app and order also
-  //to make it access there because request window will be made there
-  res.status(200).json({
-    success : true,
-    order
-  })
+    //creating an order with razorpay method
+    const order = await instance.orders.create(options).catch((err) => console.log("here",err));
+    
+    //sending true status to app and order also
+    //to make it access there because request window will be made there
+    res.status(200).json({
+      success : true,
+      order
+    })
+  } catch (error) {
+    console.log(error);
+  }
+
 })
 
 //verifying payment if its really made or someone just made some credentials by themselves ??
