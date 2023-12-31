@@ -9,7 +9,7 @@ console.log(process.env.RAZORPAY_API_KEY, process.env.RAZORPAY_API_SECRET);
 var instance = new Razorpay({
     key_id: process.env.RAZORPAY_API_KEY,
     key_secret: process.env.RAZORPAY_API_SECRET,
- }).catch((err) => console.log("here also on instance : ",err));
+ });
 
 console.log("instance", instance);
 
