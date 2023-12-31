@@ -3,11 +3,15 @@ const Razorpay = require("razorpay");
 const crypto = require("crypto");
 require("dotenv").config();
 
+console.log(process.env.RAZORPAY_API_KEY, process.env.RAZORPAY_API_SECRET);
+
 //making instance for razorpay which has key and secret
 var instance = new Razorpay({
     key_id: process.env.RAZORPAY_API_KEY,
     key_secret: process.env.RAZORPAY_API_SECRET,
- });
+ }).catch((err) => console.log("here also on instance : ",err));
+
+console.log("instance", instance);
 
 const checkout =  async(req,res) =>{
 
