@@ -21,7 +21,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 // Define an array of allowed origins
-const allowedOrigins = ["https://brewtopia.netlify.app"];
+const allowedOrigins = ["https://brewtopia.netlify.app", "http://localhost:3000"];
 
 // Use a middleware function to set the header dynamically
 app.use((req, res, next) => {
