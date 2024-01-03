@@ -8,7 +8,7 @@ const createUser = async (req, res) => {
         const user = req.body;
         const password = user.password;
 
-        const salt = await bcryptjs.genSalt(10)
+        const salt = await bcryptjs.genSalt(11)
         const hashedPassword = await bcryptjs.hash(password, salt)
         
         user.password = hashedPassword;
