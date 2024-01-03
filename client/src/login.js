@@ -1,8 +1,8 @@
 import "./styles/login.css";
-import { useState , useEffect} from "react";
+import { useState} from "react";
 import Axios from "axios";
 import Cookies from 'universal-cookie';
-import {  useNavigate } from "react-router-dom";
+
 import toast from 'react-hot-toast';
 
 export default function Login() {
@@ -26,7 +26,7 @@ export default function Login() {
     }
 
     //getting data from backend port 
-    const getUser = Axios.post("http://localhost:5000/getUser", {
+    const getUser = Axios.post("https://brewtopia.up.railway.app/getUser", {
       username: username,
       password: password,
     })

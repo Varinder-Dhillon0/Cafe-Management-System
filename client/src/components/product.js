@@ -1,24 +1,20 @@
 import {  useState , useEffect} from "react";
 import "../styles/App.css";
 import toast from "react-hot-toast";
-import Axios from "axios";
-import Cookies from "universal-cookie";
 
 export default function Product(props) {
   const { product, cartState, setCart, total, setTotal } = props;
   const [clicked, setclicked] = useState(false);
-  const [counter, setcounter] = useState(1);
 
   //used to update total and cart items
   const cart =   () => {
     if (clicked === false) {
-      setTotal(total + product.price * counter);
+      setTotal(total + product.price);
       setCart(cartState.concat({
           name: product.name,
           photo: product.image,
           quantity: product.quantity,
           price: product.price,
-          count: counter,
         })
       );
       setclicked(true);
@@ -37,7 +33,6 @@ export default function Product(props) {
   function itemincart(){
     for(var i=0; i<cartState.length; i++){
         if(cartState[i].name == product.name){
-          setcounter(cartState[i].count);
           return true
         };
         
@@ -53,30 +48,6 @@ export default function Product(props) {
           <h3>{product.name}</h3>
           <p>{product.quantity}</p>
           <h4>{product.stars}</h4>
-          <div className="range">
-            <button
-              type="button"
-              onClick={() => {
-                if (clicked || counter === 1) {
-                } else {
-                  setcounter(counter - 1);
-                }
-              }}
-            >
-              -
-            </button>
-            <p>{counter}</p>
-            <button
-              type="button"
-              onClick={() => {
-                if (clicked == false) {
-                  setcounter(counter + 1);
-                }
-              }}
-            >
-              +
-            </button>
-          </div>
           <div className="pricing">
             <p>₹{product.price}/-</p>
             <button

@@ -26,11 +26,11 @@ export default function Sign() {
     }else if(!password){
       return toast.error("Enter password");
     }else if(password.length < 7){
-      return toast.error("Password must be 6 characters long")
+      return toast.error("Password must be atleast 7 characters long")
     }
 
     //posting data to api
-    const newUserPromise = Axios.post("http://localhost:5000/createUser", {
+    const newUserPromise = Axios.post("https://brewtopia.up.railway.app/createUser", {
       name: name,
       username: username,
       password: password,

@@ -1,6 +1,7 @@
 const UserModel = require("../models/Users");
 const Razorpay = require("razorpay");
 const crypto = require("crypto");
+require("dotenv").config();
 
 //making instance for razorpay which has key and secret
 var instance = new Razorpay({
@@ -9,6 +10,9 @@ var instance = new Razorpay({
  });
 
 const checkout =  async(req,res) =>{
+
+    console.log(process.env.RAZORPAY_API_KEY, process.env.RAZORPAY_API_SECRET);
+    console.log("instance", instance);
 
     //making some options for razorpay
     try {
@@ -19,7 +23,7 @@ const checkout =  async(req,res) =>{
     
       //creating an order with razorpay method
       const order = await instance.orders.create(options).catch((err) => console.log("here",err));
-      
+      console.log(order);
       //sending true status to app and order also
       //to make it access there because request window will be made there
       res.status(200).json({

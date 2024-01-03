@@ -14,15 +14,12 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 const cookies = new Cookies();
 const user = cookies.get("username");
 
-//for different routes that user can route to and rendering it to root which is present in index.html
-//by selecting it
-
 root.render(
   <>
     <BrowserRouter>
       <Routes>
         <Route exact path="/" element={user ? <App /> : <Navigate replace to="/login" />} />
-        <Route exact path="/login" element={user ? <App/> : <Login/>} />
+        <Route exact path="/login" element={user ? <Navigate replace to="/"/> : <Login/>} />
         <Route path="/sign-up" element={<Sign />}></Route>
         <Route path="/paymentsuccess" element={<PaymentSuccess/>}></Route>
       </Routes>
