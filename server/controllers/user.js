@@ -1,4 +1,4 @@
-import bcryptjs from "bcryptjs"
+const bcryptjs = require("bcryptjs");
 const UserModel = require("../models/Users");
 
 const createUser = async (req, res) => {
@@ -9,7 +9,7 @@ const createUser = async (req, res) => {
         const user = req.body;
         const {password} = reqBody;
 
-        const salt = await bcryptjs.genSalt(10)
+        const salt = await bcryptjs.genSalt(11)
         const hashedPassword = await bcryptjs.hash(password, salt)
         
         user.password = hashedPassword;
