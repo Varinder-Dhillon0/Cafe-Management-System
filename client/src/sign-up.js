@@ -41,7 +41,7 @@ export default function Sign() {
         }else{
           Navigation("/login");
         }
-      })
+      }).catch(err => console.log(err))
 
     toast.promise(newUserPromise, {
       loading: 'Signing up',
