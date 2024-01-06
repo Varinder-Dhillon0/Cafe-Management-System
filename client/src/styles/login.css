@@ -1,0 +1,124 @@
+*,
+*:before,
+*:after {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+.login-wrapper {
+    background-color: #ecd3bd;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+.login_card{
+    width:30%;
+    height:75%;
+    min-width:370px;
+    position: relative;
+}
+.background {
+    width: 100%;
+    min-width:370px;
+    height: 100%;
+    position: absolute;
+    transform: translate(-50%, -50%);
+    left: 50%;
+    top: 50%;
+}
+
+.background .shape {
+    height: 12.5rem;
+    width: 12.5rem;
+    position: absolute;
+    border-radius: 50%;
+}
+
+.shape:first-child {
+    background: linear-gradient(#1845ad,
+            #23a2f6);
+    left: -5rem;
+    top: -5rem;
+}
+
+.shape:last-child {
+    background: linear-gradient(to right,
+            #ff512f,
+            #f09819);
+    right: -5rem;
+    bottom: -5rem;
+}
+
+.form {
+    position: relative;
+    height: 95%;
+    width: 90%;
+    background-color: rgba(255, 255, 255, 0.13);
+    transform: translate(-50%, -50%);
+    top: 50%;
+    left: 50%;
+    border-radius: 10px;
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 0 40px rgba(8, 7, 16, 0.6);
+    padding: 2.375rem 2.188rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.form * {
+    font-family: 'Poppins', sans-serif;
+    color: #000;
+    letter-spacing: 0.5px;
+    outline: none;
+    border: none;
+}
+
+.form h3 {
+    position: relative;
+    font-size: 2.1rem;
+    font-weight: 500;
+    line-height: 42px;
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.input {
+    position: relative;
+    display: block;
+    height: 50px;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.09);
+    border-radius: 3px;
+    padding: 0 10px;
+    margin-top: 14px;
+    font-size: 0.875;
+    font-weight: 300;
+}
+
+::placeholder {
+    color: #000;
+}
+
+.button {
+    margin-top: 10px;
+    width: 100%;
+    background-color: #ffffff;
+    color: #080710;
+    padding: 15px 0;
+    font-size: 18px;
+    font-weight: 600;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.redirect {
+    text-align: center;
+    margin-top: 40px;
+}
