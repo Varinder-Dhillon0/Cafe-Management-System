@@ -1,0 +1,186 @@
+*,
+*:before,
+*:after {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+.login-wrapper {
+    background-color: #ecd3bd;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+.login_card{
+    width:30%;
+    height:90%;
+    min-width:370px;
+    position: relative;
+}
+
+.form_login{
+    padding-top: 100px;
+}
+.background {
+    width: 100%;
+    min-width:370px;
+    height: 100%;
+    position: absolute;
+    transform: translate(-50%, -50%);
+    left: 50%;
+    top: 50%;
+}
+
+.background .shape {
+    height: 12.5rem;
+    width: 12.5rem;
+    position: absolute;
+    border-radius: 50%;
+}
+
+.shape:first-child {
+    background: linear-gradient(#1845ad,
+            #23a2f6);
+    left: -5rem;
+    top: -5rem;
+}
+
+.shape:last-child {
+    background: linear-gradient(to right,
+            #ff512f,
+            #f09819);
+    right: -5rem;
+    bottom: -5rem;
+}
+.shape:first-child {
+  animation: ShapeMotion 5s ease infinite ;
+}
+.shape:last-child{
+    animation: ShapeMotionInverse 5s ease infinite ;
+}
+@keyframes ShapeMotion{
+    0%,100% {
+        transform: translateX(0);
+    }
+    25% {
+       transform: translateX(15px);
+    }
+    50%{
+        transform: translateX(-10px);
+        transform: scale(.95);
+    }
+    75%{
+        transform: translateX(10px);
+    }
+}
+@keyframes ShapeMotionInverse{
+    0%,100% {
+        transform: translateX(0);
+    }
+    25% {
+       transform: translateX(15px);
+    }
+    50%{
+        transform: translateX(10px);
+        transform: scale(1.025);
+    }
+    75%{
+        transform: translateX(-20px);
+    }
+}
+.form {
+    position: relative;
+    height: max-content;
+    width: 90%;
+    background-color: rgba(255, 255, 255, 0.13);
+    transform: translate(-50%, -50%);
+    top: 50%;
+    left: 50%;
+    border-radius: 10px;
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 0 40px rgba(8, 7, 16, 0.6);
+    padding: 2.375rem 2.188rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.form * {
+    font-family: 'Poppins', sans-serif;
+    color: #000;
+    letter-spacing: 0.5px;
+    outline: none;
+    border: none;
+}
+
+.form h3 {
+    position: relative;
+    font-size: 2.1rem;
+    font-weight: 500;
+    line-height: 42px;
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+.passwordinput{
+    display: flex;
+    position: relative;
+     }
+     .togglebutton {
+       
+        position: absolute;
+        top: 65%;
+        right: 10px;
+        transform: translateY(-50%);
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 0;
+    }
+    
+    .togglebutton:focus {
+        outline: none; /* Remove the default focus outline */
+    }
+    
+.input {
+    position: relative;
+    display: block;
+    height: 50px;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.09);
+    border-radius: 3px;
+    padding: 10px 10px;
+    margin-top: 14px;
+    font-size: 14px;
+    font-weight: 300;
+}
+
+::placeholder {
+    color: #000;
+}
+
+.login_button {
+    margin-top: 10px;
+    width: 50%;
+    background-color: #ffffff;
+    color: #000;
+    padding: 10px 0;
+    font-size: 14px;
+    font-weight: 600;
+    border-radius: 5px;
+    margin: auto;
+    margin-top: 20px;
+    cursor: pointer;
+}
+
+.redirect {
+    text-align: center;
+    margin-top: 40px;
+}
